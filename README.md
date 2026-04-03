@@ -9,16 +9,19 @@ Simulate a fleet of drones navigating a 3D environment — tracking assigned tar
 ## 📸 Screenshots
 
 ### Simulation Tab — Fleet in flight over farm field
-![Simulation Tab](screenshots/simulation-tab.png)
+<img width="1919" height="1020" alt="Screenshot 2026-04-03 193014" src="https://github.com/user-attachments/assets/469e4815-b701-41fa-b28c-92f3a2707126" />
 
 ### Close-up — Drone formation with neighbor links and spray overlay
-![Formation Close-up](screenshots/formation-closeup.png)
+<img width="485" height="346" alt="Screenshot 2026-04-03 193112" src="https://github.com/user-attachments/assets/93cd1cfc-2342-444b-9119-4b7c569fa482" />
+
 
 ### Game Tab — Manual drone mission (spraying mode)
-![Game Tab](screenshots/game-tab.png)
+<img width="1919" height="1016" alt="Screenshot 2026-04-03 193226" src="https://github.com/user-attachments/assets/12e40cab-0532-4ad1-bcf1-a0ae1ad294af" />
+
 
 ### Mission Complete!
-![Mission Complete](screenshots/mission-complete.png)
+<img width="820" height="364" alt="Screenshot 2026-04-03 193236" src="https://github.com/user-attachments/assets/d91505c1-b1f4-4112-b526-67c0c6aec726" />
+
 
 ---
 
