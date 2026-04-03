@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<TabPane fx:id="rootTabs" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DroneSimulatorGUI.DroneSimulatorController">
+
+    <!-- ===================== SIMULATION TAB ===================== -->
+    <Tab text="Simulation">
+        <BorderPane>
+
+            <center>
+                <StackPane fx:id="sceneContainer" style="-fx-background-color:#0b1220;">
+                    <Canvas fx:id="mapCanvas" />
+                </StackPane>
+            </center>
+
+            <!-- LEFT: Visuals / Camera -->
+            <left>
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="300">
+                    <content>
+                        <VBox spacing="10" style="-fx-padding:12; -fx-background-color:#0b1220;">
+                            <Label style="-fx-text-fill:white; -fx-font-size:16; -fx-font-weight:bold;" text="🧭 Visuals / Camera" />
+
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Drone Style" />
+                            <ComboBox fx:id="droneStyleCombo" prefWidth="260" />
+
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Background Style" />
+                            <ComboBox fx:id="bgStyleCombo" prefWidth="260" />
+
+                            <Separator />
+
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Custom Drone Image Path" />
+                            <HBox spacing="6">
+                                <TextField fx:id="customDroneField" promptText="PNG recommended (transparent)" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="browseCustomDroneBtn" onAction="#browseCustomDrone" text="📁" />
+                            </HBox>
+
+                            <CheckBox fx:id="removeWhiteCheck" style="-fx-text-fill:#e2e8f0;" text="Remove white background" />
+                            <Label style="-fx-text-fill:#cbd5e1;" text="White Removal Strength" />
+                            <Slider fx:id="whiteToleranceSlider" max="0.45" min="0.05" value="0.22" />
+
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Custom Background Image Path" />
+                            <HBox spacing="6">
+                                <TextField fx:id="customBgField" promptText="Any image (JPG/PNG)" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="browseCustomBgBtn" onAction="#browseCustomBackground" text="📁" />
+                            </HBox>
+
+                            <Button fx:id="applyVisualsBtn" onAction="#applyVisuals" style="-fx-background-color:#16a34a; -fx-text-fill:white; -fx-font-weight:bold;" text="✓ Apply Visuals" />
+
+                            <Separator />
+                     <Label fx:id="statusLabel" style="-fx-text-fill:#e2e8f0; -fx-padding:8; -fx-background-color:rgba(255,255,255,0.06); -fx-background-radius:8;" text="Ready" wrapText="true" />
+
+                            <Label style="-fx-text-fill:white; -fx-font-weight:bold;" text="Camera / View" />
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Tilt (fake 3D)" />
+                            <Slider fx:id="tiltSlider" max="2.0" min="0" value="0.55" />
+
+                            <CheckBox fx:id="gridCheck" selected="true" style="-fx-text-fill:#e2e8f0;" text="Show grid" />
+                            <CheckBox fx:id="labelsCheck" selected="true" style="-fx-text-fill:#e2e8f0;" text="Show drone labels" />
+                            <CheckBox fx:id="linksCheck" selected="false" style="-fx-text-fill:#e2e8f0;" text="Show neighbor links" />
+                            <CheckBox fx:id="sprayCheck" selected="true" style="-fx-text-fill:#e2e8f0;" text="Show water spray" />
+
+                            <Button onAction="#resetCamera" style="-fx-background-color:#334155; -fx-text-fill:white;" text="Reset Camera" />
+
+                            <Label fx:id="followLabel" style="-fx-text-fill:#cbd5e1;" text="Follow: OFF" />
+                            <Label style="-fx-text-fill:#94a3b8; -fx-font-size:11;" text="Tip: Click a drone to follow. Ctrl+Click to stop." wrapText="true" />
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </left>
+
+            <!-- RIGHT: Controls -->
+            <right>
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="330">
+                    <content>
+                        <VBox spacing="12" style="-fx-padding:12; -fx-background-color:#0b1220;">
+
+                            <Label style="-fx-text-fill:white; -fx-font-size:16; -fx-font-weight:bold;" text="🚁 Drone Fleet Simulator (2D View)" />
+
+                            <VBox spacing="8" style="-fx-padding:10; -fx-background-color:rgba(255,255,255,0.06); -fx-background-radius:10;">
+                                <Label style="-fx-text-fill:white; -fx-font-weight:bold;" text="⚙ Fleet" />
+                                <GridPane hgap="8" vgap="8">
+                                    <Label style="-fx-text-fill:#cbd5e1;" text="Count" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <TextField fx:id="droneCountField" prefWidth="90" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                    <Button onAction="#applyDroneCount" style="-fx-background-color:#ef4444; -fx-text-fill:white;" text="Apply" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                                    <Label style="-fx-text-fill:#cbd5e1;" text="Time(s)" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                    <TextField fx:id="totalTimeField" prefWidth="90" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Button onAction="#applyTotalTime" style="-fx-background-color:#ef4444; -fx-text-fill:white;" text="Apply" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                           <columnConstraints>
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                                </GridPane>
+
+                                <Button fx:id="loadConstantsBtn" onAction="#loadConstantsFromFile" style="-fx-background-color:#334155; -fx-text-fill:white;" text="📄 Load Constants File" />
+                            </VBox>
+
+                            <VBox spacing="8" style="-fx-padding:10; -fx-background-color:rgba(255,255,255,0.06); -fx-background-radius:10;">
+                                <Label style="-fx-text-fill:white; -fx-font-weight:bold;" text="🚀 Init" />
+                                <HBox spacing="8">
+                                    <Button fx:id="initDronesRandomBtn" maxWidth="Infinity" onAction="#initDronesRandom" style="-fx-background-color:#f97316; -fx-text-fill:white; -fx-font-weight:bold;" text="🎲 Random" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="initDronesZeroBtn" maxWidth="Infinity" onAction="#initDronesZero" style="-fx-background-color:#f97316; -fx-text-fill:white; -fx-font-weight:bold;" text="📍 Zero" HBox.hgrow="ALWAYS" />
+                                </HBox>
+                            </VBox>
+
+                            <VBox spacing="8" style="-fx-padding:10; -fx-background-color:rgba(255,255,255,0.06); -fx-background-radius:10;">
+                                <Label style="-fx-text-fill:white; -fx-font-weight:bold;" text="🎯 Targets" />
+                                <Button fx:id="randomTargetBtn" onAction="#randomizeTarget" style="-fx-background-color:#8b5cf6; -fx-text-fill:white;" text="🎲 Random Shared Target" />
+
+                                <Label style="-fx-text-fill:#cbd5e1;" text="Manual Shared Target (X,Y,Z)" />
+                                <HBox spacing="6">
+                                    <TextField fx:id="targetXField" promptText="X" />
+                                    <TextField fx:id="targetYField" promptText="Y" />
+                                    <TextField fx:id="targetZField" promptText="Z" />
+                                </HBox>
+                                <Button fx:id="setTargetBtn" onAction="#setTarget" style="-fx-background-color:#8b5cf6; -fx-text-fill:white;" text="Set Shared Target" />
+
+                                <Separator />
+
+                                <Button fx:id="randomTargetsPerDroneBtn" onAction="#randomizeTargetsPerDrone" style="-fx-background-color:#38bdf8; -fx-text-fill:#0b1220; -fx-font-weight:bold;" text="🎲 Random Per-Drone Targets" />
+
+                                <Label style="-fx-text-fill:#cbd5e1;" text="Set Target for Drone (id,x,y,z)" />
+                                <HBox spacing="6">
+                                    <TextField fx:id="droneIdField" prefWidth="45" promptText="ID" />
+                                    <TextField fx:id="droneTargetXField" promptText="X" />
+                                    <TextField fx:id="droneTargetYField" promptText="Y" />
+                                    <TextField fx:id="droneTargetZField" promptText="Z" />
+                                </HBox>
+                                <Button fx:id="setDroneTargetBtn" onAction="#setTargetForDrone" style="-fx-background-color:#38bdf8; -fx-text-fill:#0b1220; -fx-font-weight:bold;" text="Set Drone Target" />
+
+                                <Label fx:id="targetLabel" style="-fx-text-fill:#cbd5e1; -fx-font-style:italic;" text="Target: (not set)" />
+                            </VBox>
+
+                            <VBox spacing="8" style="-fx-padding:10; -fx-background-color:rgba(255,255,255,0.06); -fx-background-radius:10;">
+                                <Label style="-fx-text-fill:white; -fx-font-weight:bold;" text="▶ Controls" />
+                                <HBox spacing="8">
+                                    <Button fx:id="startBtn" maxWidth="Infinity" onAction="#startSimulation" style="-fx-background-color:#22c55e; -fx-text-fill:white; -fx-font-weight:bold;" text="▶ Start" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="pauseBtn" maxWidth="Infinity" onAction="#pauseSimulation" style="-fx-background-color:#f59e0b; -fx-text-fill:white; -fx-font-weight:bold;" text="⏸ Pause" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="resetBtn" maxWidth="Infinity" onAction="#resetSimulation" style="-fx-background-color:#ef4444; -fx-text-fill:white; -fx-font-weight:bold;" text="🔄 Reset" HBox.hgrow="ALWAYS" />
+                                </HBox>
+
+                                <Label style="-fx-text-fill:#cbd5e1;" text="Speed" />
+                                <Slider fx:id="speedSlider" max="5.0" min="0.2" showTickLabels="true" showTickMarks="true" value="1.0" />
+                            </VBox>
+
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </right>
+
+        </BorderPane>
+    </Tab>
+
+    <!-- ===================== GAME TAB ===================== -->
+    <Tab text="Game">
+        <BorderPane>
+            <center>
+                <StackPane fx:id="gameSceneContainer" style="-fx-background-color:#0b1220;">
+                    <Canvas fx:id="gameCanvas" />
+                </StackPane>
+            </center>
+
+            <right>
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefWidth="320">
+                    <content>
+                        <VBox spacing="12" style="-fx-padding:12; -fx-background-color:#0b1220;">
+                            <Label style="-fx-text-fill:white; -fx-font-size:16; -fx-font-weight:bold;" text="🎮 Drone Mission (Manual Control)" />
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Controls: W A S D move | SPACE spray (hold)" />
+
+                            <Separator />
+
+                            <Label style="-fx-text-fill:white; -fx-font-weight:bold;" text="Game Visuals" />
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Drone Style" />
+                            <ComboBox fx:id="gameDroneStyleCombo" prefWidth="260" />
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Background Style" />
+                            <ComboBox fx:id="gameBgStyleCombo" prefWidth="260" />
+
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Custom Drone Image" />
+                            <HBox spacing="6">
+                                <TextField fx:id="gameCustomDroneField" promptText="optional" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="gameBrowseDroneBtn" onAction="#browseGameDrone" text="📁" />
+                            </HBox>
+
+                            <Label style="-fx-text-fill:#cbd5e1;" text="Custom Background Image" />
+                            <HBox spacing="6">
+                                <TextField fx:id="gameCustomBgField" promptText="optional" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="gameBrowseBgBtn" onAction="#browseGameBackground" text="📁" />
+                            </HBox>
+
+                            <Button fx:id="gameApplyVisualsBtn" onAction="#applyGameVisuals" style="-fx-background-color:#16a34a; -fx-text-fill:white; -fx-font-weight:bold;" text="✓ Apply Game Visuals" />
+
+                            <Separator />
+
+                            <Button fx:id="gameStartBtn" onAction="#startGameMission" style="-fx-background-color:#22c55e; -fx-text-fill:white; -fx-font-weight:bold;" text="🚁 Start Mission" />
+                            <Button fx:id="gameRandomTargetBtn" onAction="#gameRandomTarget" style="-fx-background-color:#8b5cf6; -fx-text-fill:white;" text="🎯 Random Target" />
+                            <Button fx:id="gameResetBtn" onAction="#resetGameMission" style="-fx-background-color:#ef4444; -fx-text-fill:white;" text="🔄 Reset" />
+
+                            <Label fx:id="gameInfoLabel" style="-fx-text-fill:#e2e8f0; -fx-padding:8; -fx-background-color:rgba(255,255,255,0.06); -fx-background-radius:8;" text="Status: Ready" wrapText="true" />
+
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </right>
+        </BorderPane>
+    </Tab>
+
+</TabPane>
